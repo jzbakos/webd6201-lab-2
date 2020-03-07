@@ -1,3 +1,9 @@
+/**
+ * Author: Josh Bakos
+ * Student ID: 100652490
+ * Date Completed: 2020-03-07
+ */
+
 class Contact
 {
     constructor(contactName = "", emailAddress = "", contactNumber = "", contactMessage = "")
@@ -258,6 +264,84 @@ let app;
     function DisplayRegisterContent()
     {
         document.title = "WEBD6201 - Register";
+
+        // Simple re-usable function for validating input
+        function validateInput(selector, condition, errorMessage)
+        {
+            if(condition)
+            {
+                $("#ErrorMessage").show();
+                $("#ErrorMessage").text(errorMessage);
+                $(selector).select();
+                $(selector).css("border", "2px solid red");
+            }
+            else
+            {
+                $("#ErrorMessage").hide();
+                $(selector).css("border", "1px solid #ced4da");
+            }
+        }
+
+        // When the page loads initially, hide the error message and select the first input
+        $("#ErrorMessage").hide();
+        $("#FirstName").select();
+
+        // First Name Events
+        $("#FirstName").blur((e)=>
+        {
+            validateInput("#FirstName",( $("#FirstName").val().length < 2),"First Name is too short");
+        });
+
+        $("#FirstName").focus((e)=>
+        {
+            $("#FirstName").select();
+        });
+
+        // Last Name Events
+        $("#lastName").blur((e)=>
+        {
+            validateInput("#lastName",( $("#lastName").val().length < 2),"Last Name is too short");
+        });
+
+        $("#lastName").focus((e)=>
+        {
+            $("#lastName").select();
+        });
+
+        // Email Events
+        $("#emailAddress").blur((e)=>
+        {
+            validateInput("#emailAddress",($("#emailAddress").val().length < 8) || (!$("#emailAddress").val().includes("@")),"Invalid Email Address");
+        });
+
+        $("#emailAddress").focus((e)=>
+        {
+            $("#emailAddress").select();
+        });
+
+        // Password Events
+        $("#password").blur((e)=>
+        {
+            // Check if the first password is of valid length, then you don't need to check the other (redundant)
+            validateInput("#password",($("#password").val().length < 6),"Passwords must be at least 6 characters");
+        });
+
+        $("#password").focus((e)=>
+        {
+            $("#password").select();
+        });
+
+        // Password Events
+        $("#confirmPassword").blur((e)=>
+        {
+            // Check if the two password inputs are equal
+            validateInput("#confirmPassword",($("#confirmPassword").val() != $("#password").val()),"Passwords do not match");
+        });
+
+        $("#confirmPassword").focus((e)=>
+        {
+            $("#confirmPassword").select();
+        });
     }
 
     /**
