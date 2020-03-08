@@ -16,6 +16,18 @@ class Contact
 }
 
 
+class User
+{
+    constructor(firstName = "", lastName = "", username = "", email = "", password = "")
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+}
+
 
 
 "use strict";
@@ -250,13 +262,27 @@ let app;
 
         $("#loginForm").submit  ((e)=>
         {
+
+            // Get the navbar
+            let navbar = document.getElementsByClassName("navbar-nav ml-auto")[0];
+
+            // Create new navbar-text element
+            let username_display = document.createElement('span');
+            username_display.setAttribute('class', 'navbar-text');
+            username_display.setAttribute('style', 'padding-left: 10px; padding-right: 10px;')
+
+            // Get the login username and set the element content
+            let username_display_content = $("#contactName").val();
+            username_display.innerHTML = username_display_content;
+
+            // Insert the element
+            navbar.insertBefore(username_display, navbar.children[5]);
            
             e.preventDefault();
             e.stopPropagation();
             $("#loginForm")[0].reset();
             $("#login").hide();
             $("#logout").show();
-
         });
 
     }
@@ -341,6 +367,36 @@ let app;
         $("#confirmPassword").focus((e)=>
         {
             $("#confirmPassword").select();
+        });
+
+        // Simple form clearing method
+        function clearForm()
+        {
+            $("#registerForm")[0].reset();
+            $("#ErrorMessage").hide();
+        }
+
+        // When the user presses register
+        $("#registerForm").submit  ((e)=>
+        {
+            // Prevent default form opterations
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Get all the values from the register form
+            // Not sure where to grab username - username is not a part of the register inputs
+            let firstName = $("#FirstName").val();
+            let lastName = $("#lastName").val();
+            let username = $("#username").val();
+            let email = $("#emailAddress").val();
+            let password = $("#password").val();
+
+            // Create a new user and then log to the console
+            let userObject = new User(firstName, lastName, username, email, password);
+            console.log(userObject);
+
+            // Clear the form
+            clearForm();
         });
     }
 
